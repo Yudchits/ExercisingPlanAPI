@@ -1,4 +1,5 @@
 using ExercisingPlanAPI.Data;
+using ExercisingPlanAPI.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ namespace ExercisingPlanAPI
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+            services.AddTransient<DbSeeder>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -52,6 +54,17 @@ namespace ExercisingPlanAPI
             {
                 endpoints.MapControllers();
             });
+        }
+
+        public void SeedData(IHost app)
+        {
+            var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+            using (var scope = scopedFactory.CreateScope())
+            {
+                var service = scope.ServiceProvider.GetService<DbSeeder>();
+                service.SeedDataContext();
+            }
         }
     }
 }

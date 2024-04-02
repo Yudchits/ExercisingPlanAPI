@@ -1,11 +1,8 @@
+using ExercisingPlanAPI.Helpers;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace ExercisingPlanAPI
 {
@@ -13,7 +10,20 @@ namespace ExercisingPlanAPI
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var builder = CreateHostBuilder(args).Build();
+
+            if (args.Length == 1 && args[0].ToLower() == "seeddata")
+            {
+                var scopedFactory = builder.Services.GetService<IServiceProvider>();
+
+                using (var scope = scopedFactory.CreateScope())
+                {
+                    var service = scope.ServiceProvider.GetService<DbSeeder>();
+                    service.SeedDataContext();
+                }
+            }
+
+            builder.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

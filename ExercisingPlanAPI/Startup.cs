@@ -1,5 +1,7 @@
 using ExercisingPlanAPI.Data;
 using ExercisingPlanAPI.Helpers;
+using ExercisingPlanAPI.Repositories;
+using ExercisingPlanAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +31,8 @@ namespace ExercisingPlanAPI
             });
             services.AddTransient<DbSeeder>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

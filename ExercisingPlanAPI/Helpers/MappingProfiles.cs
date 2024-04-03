@@ -8,8 +8,8 @@ namespace ExercisingPlanAPI.Helpers
     {
         public MappingProfiles()
         {
-            CreateMap<ExercisingPlan, ExercisingPlanDto>();
-            CreateMap<ExercisingPlanDto, ExercisingPlan>();
+            CreateMap<User, UserDto>();
+            CreateMap<UserDto, User>();
         }
     }
 }

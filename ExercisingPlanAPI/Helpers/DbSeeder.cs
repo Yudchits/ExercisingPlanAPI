@@ -15,100 +15,233 @@ namespace ExercisingPlanAPI.Helpers
 
         public void SeedDataContext()
         {
-            // CoachPupil
-            var coach = new User
+            _context.Database.EnsureDeleted();
+            _context.Database.EnsureCreated();
+
+            var coach1 = new User
             {
                 FirstName = "Pavel",
                 MiddleName = "Alexandrovich",
                 LastName = "Yudchits"
             };
-
             var pupil1 = new User
             {
                 FirstName = "Alex",
-                MiddleName = "Sergeevich",
+                MiddleName = "Petrovich",
                 LastName = "Ivanov"
             };
-
             var pupil2 = new User
             {
-                FirstName = "Ivan",
-                MiddleName = "Alexeevich",
-                LastName = "Petrov"
+                FirstName = "Oleg",
+                MiddleName = "Ivanovich",
+                LastName = "Borodach"
             };
 
-            var coachPupils = new List<CoachPupil>()
+            var monday = new Weekday
             {
-                new CoachPupil
-                {
-                    Coach = coach,
-                    Pupil = pupil1
-                },
-                new CoachPupil
-                {
-                    Coach = coach,
-                    Pupil = pupil2
-                }
+                Name = "Monday"
+            };
+            var wednesday = new Weekday
+            {
+                Name = "Wednesday"
             };
 
-            _context.CoachPupils.AddRange(coachPupils);
-
-            // UserSubscriber
-            var userSubscribers = new List<UserSubscriber>()
+            var back = new TargetMuscleGroup
             {
-                new UserSubscriber
+                Name = "Back"
+            };
+            var chest = new TargetMuscleGroup
+            {
+                Name = "Chest"
+            };
+            var shoulders = new TargetMuscleGroup
+            {
+                Name = "Shoulders"
+            };
+            var legs = new TargetMuscleGroup
+            {
+                Name = "Legs"
+            };
+
+            var exercisingPlan1 = new ExercisingPlan
+            {
+                Name = "Standard Gym",
+                WeekdayExercises = new List<WeekdayExercise>()
                 {
-                    Subscriber = pupil1,
-                    User = coach
-                },
-                new UserSubscriber
-                {
-                    Subscriber = pupil2,
-                    User = coach
-                },
-                new UserSubscriber
-                {
-                    Subscriber = new User
+                    new WeekdayExercise
                     {
-                        FirstName = "Petr",
-                        MiddleName = "Ivanovich",
-                        LastName = "Petrov"
+                        Weekday = monday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Push Press",
+                            Description = "Description for push press",
+                            TargetMuscleGroup = shoulders
+                        }
                     },
-                    User = coach
-                }
+                    new WeekdayExercise 
+                    {
+                        Weekday = monday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Lateral Raise",
+                            Description = "Description for lateral raise",
+                            TargetMuscleGroup = shoulders
+                        }
+                    },
+                    new WeekdayExercise
+                    {
+                        Weekday = monday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Barbell Curl",
+                            Description = "Description for barbell curl",
+                            TargetMuscleGroup = new TargetMuscleGroup
+                            {
+                                Name = "Biceps"
+                            }
+                        }
+                    },
+                    new WeekdayExercise
+                    {
+                        Weekday = wednesday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Sit-To-Stand Calf Raise",
+                            Description = "Description for sit-to-stand calf raise",
+                            TargetMuscleGroup = legs
+                        }
+                    },
+                    new WeekdayExercise
+                    {
+                        Weekday = wednesday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Sprinter Calf Jumps",
+                            Description = "Description for sprinter calf jumps",
+                            TargetMuscleGroup = legs
+                        }
+                    },
+                    new WeekdayExercise
+                    {
+                        Weekday = wednesday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Squat",
+                            Description = "Description for squat",
+                            TargetMuscleGroup = legs
+                        }
+                    },
+                },
+                Owner = coach1
             };
-
-            _context.UserSubscribers.AddRange(userSubscribers);
-
-            var userRoles = new List<UserRole>()
+            var exercisingPlan2 = new ExercisingPlan
             {
-                new UserRole
+                Name = "Calicthenics",
+                WeekdayExercises = new List<WeekdayExercise>()
                 {
-                    User = coach,
-                    Role = new Role
+                    new WeekdayExercise
                     {
-                        Name = "Coach"
+                        Weekday = monday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Pull Up",
+                            Description = "Description for pull up",
+                            TargetMuscleGroup = back
+                        }
+                    },
+                    new WeekdayExercise
+                    {
+                        Weekday = monday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Muscle Up",
+                            Description = "Description for muscle up",
+                            TargetMuscleGroup = back
+                        }
+                    },
+                    new WeekdayExercise
+                    {
+                        Weekday = monday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Dips",
+                            Description = "Description for dips",
+                            TargetMuscleGroup = chest
+                        }
+                    },
+                    new WeekdayExercise
+                    {
+                        Weekday = wednesday,
+                        Exercise = new Exercise
+                        {
+                            Name = "Run",
+                            Description = "Description for run",
+                            TargetMuscleGroup = chest
+                        }
                     }
                 },
-                new UserRole
-                {
-                    User = pupil1,
-                    Role = new Role
-                    {
-                        Name = "Pupil"
-                    }
-                },
-                new UserRole
-                {
-                    User = pupil2,
-                    Role = new Role
-                    {
-                        Name = "Pupil"
-                    }
-                }
+                Owner = coach1
             };
 
-            _context.UserRoles.AddRange(userRoles);
+            var userSubscriber1 = new UserSubscriber
+            {
+                User = coach1,
+                Subscriber = pupil1
+            };
+            var userSubscriber2 = new UserSubscriber
+            {
+                User = coach1,
+                Subscriber = pupil2
+            };
+
+            var coachRole = new Role
+            {
+                Name = "Coach"
+            };
+            var pupilRole = new Role
+            {
+                Name = "Pupil"
+            };
+
+            var userRole1 = new UserRole
+            {
+                User = coach1,
+                Role = coachRole
+            };
+            var userRole2 = new UserRole
+            {
+                User = pupil1,
+                Role = pupilRole
+            };
+            var userRole3 = new UserRole
+            {
+                User = pupil2,
+                Role = pupilRole
+            };
+
+            var coachPupil1 = new CoachPupil
+            {
+                Coach = coach1,
+                Pupil = pupil1
+            };
+            var coachPupil2 = new CoachPupil
+            {
+                Coach = coach1,
+                Pupil = pupil2
+            };
+
+            _context.ExercisingPlans.AddRange(exercisingPlan1);
+            _context.ExercisingPlans.AddRange(exercisingPlan2);
+
+            _context.UserSubscribers.Add(userSubscriber1);
+            _context.UserSubscribers.Add(userSubscriber2);
+
+            _context.UserRoles.Add(userRole1);
+            _context.UserRoles.Add(userRole2);
+            _context.UserRoles.Add(userRole3);
+
+            _context.CoachPupils.Add(coachPupil1);
+            _context.CoachPupils.Add(coachPupil2);
 
             _context.SaveChanges();
         }

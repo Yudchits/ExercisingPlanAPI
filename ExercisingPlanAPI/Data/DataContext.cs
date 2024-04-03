@@ -66,7 +66,21 @@ namespace ExercisingPlanAPI.Data
                 .HasForeignKey(ur => ur.RoleId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Ignore<ExercisingPlan>();
+            // WeekdayExercise relationship
+            modelBuilder.Entity<WeekdayExercise>()
+                .HasKey(we => new { we.WeekdayId, we.ExerciseId });
+
+            modelBuilder.Entity<WeekdayExercise>()
+                .HasOne(we => we.Weekday)
+                .WithMany(w => w.WeekdayExercises)
+                .HasForeignKey(we => we.WeekdayId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<WeekdayExercise>()
+                .HasOne(we => we.Exercise)
+                .WithMany()
+                .HasForeignKey(we => we.ExerciseId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

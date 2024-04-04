@@ -6,11 +6,16 @@ namespace ExercisingPlanAPI.Data
     public class DataContext : DbContext
     {
         public DbSet<CoachPupil> CoachPupils { get; set; }
+        public DbSet<Exercise> Exercises { get; set; }
         public DbSet<ExercisingPlan> ExercisingPlans { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<TargetMuscleGroup> TargetMuscleGroups { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserSubscriber> UserSubscribers { get; set; }
+        public DbSet<Weekday> Weekdays { get; set; }
+        public DbSet<WeekNumber> WeekNumbers { get; set; }
+        public DbSet<WeekPlan> WeekPlans { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -45,7 +50,7 @@ namespace ExercisingPlanAPI.Data
                 .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<UserSubscriber>()
-                .HasOne(us => us.User)
+                .HasOne(us => us.SubscribeTo)
                 .WithMany()
                 .HasForeignKey(us => us.SubscribeToId)
                 .OnDelete(DeleteBehavior.NoAction);
@@ -57,30 +62,36 @@ namespace ExercisingPlanAPI.Data
             modelBuilder.Entity<UserRole>()
                 .HasOne(ur => ur.User)
                 .WithMany(u => u.UserRoles)
-                .HasForeignKey(ur => ur.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(ur => ur.UserId);
 
             modelBuilder.Entity<UserRole>()
                 .HasOne(ur => ur.Role)
+                .WithMany(r => r.UserRoles)
+                .HasForeignKey(ur => ur.RoleId);
+
+            // WeekPlan relationship
+            modelBuilder.Entity<WeekPlan>()
+                .HasKey(wp => new { wp.WeekNumberId, wp.WeekdayId, wp.ExercisingPlanId, wp.ExerciseId });
+
+            modelBuilder.Entity<WeekPlan>()
+                .HasOne(wp => wp.ExercisingPlan)
+                .WithMany(ep => ep.WeekPlans)
+                .HasForeignKey(we => we.ExercisingPlanId);
+
+            modelBuilder.Entity<WeekPlan>()
+                .HasOne(wp => wp.WeekNumber)
                 .WithMany()
-                .HasForeignKey(ur => ur.RoleId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(wwe => wwe.WeekNumberId);
 
-            // WeekdayExercise relationship
-            modelBuilder.Entity<WeekdayExercise>()
-                .HasKey(we => new { we.WeekdayId, we.ExerciseId });
-
-            modelBuilder.Entity<WeekdayExercise>()
-                .HasOne(we => we.Weekday)
-                .WithMany(w => w.WeekdayExercises)
-                .HasForeignKey(we => we.WeekdayId)
-                .OnDelete(DeleteBehavior.NoAction);
-
-            modelBuilder.Entity<WeekdayExercise>()
-                .HasOne(we => we.Exercise)
+            modelBuilder.Entity<WeekPlan>()
+                .HasOne(wp => wp.Weekday)
                 .WithMany()
-                .HasForeignKey(we => we.ExerciseId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(we => we.WeekdayId);
+
+            modelBuilder.Entity<WeekPlan>()
+                .HasOne(wp => wp.Exercise)
+                .WithMany()
+                .HasForeignKey(we => we.ExerciseId);
         }
     }
 }

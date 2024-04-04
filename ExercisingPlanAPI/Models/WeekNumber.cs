@@ -1,8 +1,8 @@
 ﻿namespace ExercisingPlanAPI.Models
 {
-    public class Weekday
+    public class WeekNumber
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int Number { get; set; }
     }
 }

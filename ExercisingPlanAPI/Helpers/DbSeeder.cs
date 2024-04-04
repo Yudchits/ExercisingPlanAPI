@@ -46,6 +46,15 @@ namespace ExercisingPlanAPI.Helpers
                 Name = "Wednesday"
             };
 
+            var weekNumber1 = new WeekNumber
+            {
+                Number = 1
+            };
+            var weekNumber2 = new WeekNumber
+            {
+                Number = 2
+            };
+
             var back = new TargetMuscleGroup
             {
                 Name = "Back"
@@ -66,10 +75,11 @@ namespace ExercisingPlanAPI.Helpers
             var exercisingPlan1 = new ExercisingPlan
             {
                 Name = "Standard Gym",
-                WeekdayExercises = new List<WeekdayExercise>()
+                WeekPlans = new List<WeekPlan>()
                 {
-                    new WeekdayExercise
+                    new WeekPlan
                     {
+                        WeekNumber = weekNumber1,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -78,8 +88,9 @@ namespace ExercisingPlanAPI.Helpers
                             TargetMuscleGroup = shoulders
                         }
                     },
-                    new WeekdayExercise 
+                    new WeekPlan 
                     {
+                        WeekNumber = weekNumber1,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -88,8 +99,9 @@ namespace ExercisingPlanAPI.Helpers
                             TargetMuscleGroup = shoulders
                         }
                     },
-                    new WeekdayExercise
+                    new WeekPlan
                     {
+                        WeekNumber = weekNumber2,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -101,8 +113,9 @@ namespace ExercisingPlanAPI.Helpers
                             }
                         }
                     },
-                    new WeekdayExercise
+                    new WeekPlan
                     {
+                        WeekNumber = weekNumber1,
                         Weekday = wednesday,
                         Exercise = new Exercise
                         {
@@ -111,8 +124,9 @@ namespace ExercisingPlanAPI.Helpers
                             TargetMuscleGroup = legs
                         }
                     },
-                    new WeekdayExercise
+                    new WeekPlan
                     {
+                        WeekNumber = weekNumber1,
                         Weekday = wednesday,
                         Exercise = new Exercise
                         {
@@ -121,8 +135,9 @@ namespace ExercisingPlanAPI.Helpers
                             TargetMuscleGroup = legs
                         }
                     },
-                    new WeekdayExercise
+                    new WeekPlan
                     {
+                        WeekNumber = weekNumber2,
                         Weekday = wednesday,
                         Exercise = new Exercise
                         {
@@ -137,10 +152,11 @@ namespace ExercisingPlanAPI.Helpers
             var exercisingPlan2 = new ExercisingPlan
             {
                 Name = "Calicthenics",
-                WeekdayExercises = new List<WeekdayExercise>()
+                WeekPlans = new List<WeekPlan>()
                 {
-                    new WeekdayExercise
-                    {
+                    new WeekPlan
+                    {   
+                        WeekNumber = weekNumber1,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -149,8 +165,9 @@ namespace ExercisingPlanAPI.Helpers
                             TargetMuscleGroup = back
                         }
                     },
-                    new WeekdayExercise
-                    {
+                    new WeekPlan
+                    {   
+                        WeekNumber = weekNumber1,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -159,8 +176,9 @@ namespace ExercisingPlanAPI.Helpers
                             TargetMuscleGroup = back
                         }
                     },
-                    new WeekdayExercise
-                    {
+                    new WeekPlan
+                    {   
+                        WeekNumber = weekNumber2,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -169,8 +187,9 @@ namespace ExercisingPlanAPI.Helpers
                             TargetMuscleGroup = chest
                         }
                     },
-                    new WeekdayExercise
-                    {
+                    new WeekPlan
+                    {   
+                        WeekNumber = weekNumber2,  
                         Weekday = wednesday,
                         Exercise = new Exercise
                         {
@@ -185,12 +204,12 @@ namespace ExercisingPlanAPI.Helpers
 
             var userSubscriber1 = new UserSubscriber
             {
-                User = coach1,
+                SubscribeTo = coach1,
                 Subscriber = pupil1
             };
             var userSubscriber2 = new UserSubscriber
             {
-                User = coach1,
+                SubscribeTo = coach1,
                 Subscriber = pupil2
             };
 

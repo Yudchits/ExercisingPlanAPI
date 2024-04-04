@@ -6,8 +6,8 @@ namespace ExercisingPlanAPI.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public ICollection<WeekdayExercise> WeekdayExercises { get; set; }
         public int OwnerId { get; set; }
-        public User Owner { get; set; } = null!;
+        public User Owner { get; set; }
+        public ICollection<WeekPlan> WeekPlans { get; set; }
     }
 }

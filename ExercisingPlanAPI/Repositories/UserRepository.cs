@@ -2,6 +2,7 @@
 using ExercisingPlanAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ExercisingPlanAPI.Repositories
@@ -15,54 +16,66 @@ namespace ExercisingPlanAPI.Repositories
             _context = context;
         }
 
-        public Task<bool> CreateUserAsync(User user)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<bool> DeleteUserAsync(User user)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<ICollection<User>> GetAllUsersAsync()
         {
             return await _context.Users.ToListAsync();
         }
 
-        public Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
         }
 
-        public Task<User> GetUserByLastNameAsync(string lastName)
+        public async Task<User> GetUserByLastNameAsync(string lastName)
         {
-            throw new System.NotImplementedException();
+            return await _context.Users.FirstOrDefaultAsync(user => user.LastName.ToLower() == lastName.ToLower());
         }
 
-        public Task<ICollection<User>> GetUserPupilsAsync(User user)
+        public async Task<ICollection<User>> GetUserPupilsAsync(User user)
         {
-            throw new System.NotImplementedException();
+            return await _context.CoachPupils.Where(cp => cp.CoachId == user.Id).Select(cp => cp.Pupil).ToListAsync();
         }
 
-        public Task<ICollection<Role>> GetUserRolesAsync(User user)
+        public async Task<ICollection<Role>> GetUserRolesAsync(User user)
         {
-            throw new System.NotImplementedException();
+            return await _context.UserRoles.Where(ur => ur.UserId == user.Id).Select(ur => ur.Role).ToListAsync();
         }
 
-        public Task<ICollection<User>> GetUserSubscribersAsync(User user)
+        public async Task<ICollection<User>> GetUserSubscribersAsync(User user)
         {
-            throw new System.NotImplementedException();
+            return await _context.UserSubscribers.Where(us => us.SubscribeToId == user.Id).Select(us => us.Subscriber).ToListAsync();
         }
 
-        public Task<bool> SaveChangesAsync()
+        public async Task<bool> CreateUserAsync(User user)
         {
-            throw new System.NotImplementedException();
+            await _context.Users.AddAsync(user);
+
+            return await SaveChangesAsync();
         }
 
-        public Task<bool> UpdateUserAsync(User user)
+        public async Task<bool> DeleteUserAsync(User user)
         {
-            throw new System.NotImplementedException();
+            _context.Users.Remove(user);
+
+            return await SaveChangesAsync();
+        }
+
+        public async Task<bool> UpdateUserAsync(User user)
+        {
+            _context.Users.Update(user);
+
+            return await SaveChangesAsync();
+        }
+        public async Task<bool> IsUserExistedAsync(User user)
+        {
+            return await _context.Users.AnyAsync(entity => entity.Id == user.Id);
+        }
+
+        public async Task<bool> SaveChangesAsync()
+        {
+            var affectedRows = await _context.SaveChangesAsync();
+
+            return affectedRows > 0;
         }
     }
 }

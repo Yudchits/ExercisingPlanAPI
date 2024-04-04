@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ExercisingPlanAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2e4347482ac726563ab3104a269abd877e757c91")]
 [assembly: System.Reflection.AssemblyProductAttribute("ExercisingPlanAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ExercisingPlanAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

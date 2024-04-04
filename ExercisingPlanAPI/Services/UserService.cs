@@ -14,54 +14,53 @@ namespace ExercisingPlanAPI.Services
             _repository = repository;
         }
 
-        public Task<bool> CreateUserAsync(User user)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task<bool> DeleteUserAsync(User user)
-        {
-            throw new System.NotImplementedException();
-        }
-
         public async Task<ICollection<User>> GetAllUsersAsync()
         {
             return await _repository.GetAllUsersAsync();
         }
 
-        public Task<User> GetUserByIdAsync(int id)
+        public async Task<User> GetUserByIdAsync(int id)
         {
-            throw new System.NotImplementedException();
+            return await _repository.GetUserByIdAsync(id);
         }
 
-        public Task<User> GetUserByLastNameAsync(string lastName)
+        public async Task<User> GetUserByLastNameAsync(string lastName)
         {
-            throw new System.NotImplementedException();
+            return await _repository.GetUserByLastNameAsync(lastName);
         }
 
-        public Task<ICollection<User>> GetUserPupilsAsync(User user)
+        public async Task<ICollection<User>> GetUserPupilsAsync(User user)
         {
-            throw new System.NotImplementedException();
+            return await _repository.GetUserPupilsAsync(user);
         }
 
-        public Task<ICollection<Role>> GetUserRolesAsync(User user)
+        public async Task<ICollection<Role>> GetUserRolesAsync(User user)
         {
-            throw new System.NotImplementedException();
+            return await _repository.GetUserRolesAsync(user);
         }
 
-        public Task<ICollection<User>> GetUserSubscribersAsync(User user)
+        public async Task<ICollection<User>> GetUserSubscribersAsync(User user)
         {
-            throw new System.NotImplementedException();
+            return await _repository.GetUserSubscribersAsync(user);
         }
 
-        public Task<bool> SaveChangesAsync()
+        public async Task<bool> CreateUserAsync(User user)
         {
-            throw new System.NotImplementedException();
+            return await _repository.CreateUserAsync(user);
         }
 
-        public Task<bool> UpdateUserAsync(User user)
+        public async Task<bool> DeleteUserAsync(User user)
         {
-            throw new System.NotImplementedException();
+            return await _repository.DeleteUserAsync(user);
+        }
+
+        public async Task<bool> UpdateUserAsync(User user)
+        {
+            return await _repository.UpdateUserAsync(user);
+        }
+        public async Task<bool> IsUserExistedAsync(User user)
+        {
+            return await _repository.IsUserExistedAsync(user);
         }
     }
 }

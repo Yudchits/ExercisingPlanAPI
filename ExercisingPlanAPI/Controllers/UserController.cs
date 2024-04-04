@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using ExercisingPlanAPI.DTOs;
-using ExercisingPlanAPI.Models;
 using ExercisingPlanAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -31,6 +30,33 @@ namespace ExercisingPlanAPI.Controllers
             var allUsersMap = _mapper.Map<ICollection<UserDto>>(allUsers);
 
             return Ok(allUsersMap);
+        }
+
+        [HttpGet]
+        [Route("getUserById")]
+        [ProducesResponseType(200, Type = typeof(UserDto))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetUserByIdAsync([FromQuery] int id)
+        {
+            bool isUserExisted = await _service.IsUserExistedAsync(id);
+
+            if (!isUserExisted)
+            {
+                return BadRequest();
+            }
+
+            var user = await _service.GetUserByIdAsync(id);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("SqlError", "Internal Error While Getting User From Database");
+                return StatusCode(500, ModelState);
+            }
+
+            var userMap = _mapper.Map<UserDto>(user);
+
+            return Ok(userMap);
         }
     }
 }

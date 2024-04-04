@@ -66,9 +66,9 @@ namespace ExercisingPlanAPI.Repositories
 
             return await SaveChangesAsync();
         }
-        public async Task<bool> IsUserExistedAsync(User user)
+        public async Task<bool> IsUserExistedAsync(int id)
         {
-            return await _context.Users.AnyAsync(entity => entity.Id == user.Id);
+            return await _context.Users.AnyAsync(entity => entity.Id == id);
         }
 
         public async Task<bool> SaveChangesAsync()

@@ -110,5 +110,30 @@ namespace ExercisingPlanAPI.Controllers
             return Ok(userPupilsMap);
         }
 
+        [HttpPost]
+        [Route("createUser")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> CreateUserAsync([FromBody] UserDto userDto)
+        {
+            if (userDto.Id > 0)
+            {
+                ModelState.AddModelError("SqlError", "You can't specify 'id' manually. Id must be 0");
+                return StatusCode(400, ModelState);
+            }
+
+            var user = _mapper.Map<User>(userDto);
+
+            var isSaved = await _service.CreateUserAsync(user);
+
+            if (!isSaved)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during saving the user");
+                return StatusCode(500);
+            }
+
+            return NoContent();
+        }
     }
 }

@@ -4,7 +4,6 @@ using ExercisingPlanAPI.Models;
 using ExercisingPlanAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace ExercisingPlanAPI.Controllers
@@ -13,6 +12,9 @@ namespace ExercisingPlanAPI.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
+        private const string USER_NOT_EXISTED_ERROR_MESSAGE = "User with such id doesn't exist";
+        private const string ZERO_ID_ERROR_MESSAGE = "Id can't be less than 1";
+
         private readonly IUserService _service;
         private readonly IMapper _mapper;
 
@@ -131,7 +133,7 @@ namespace ExercisingPlanAPI.Controllers
             if (!isSaved)
             {
                 ModelState.AddModelError("SqlError", "Something went wrong during saving the user");
-                return StatusCode(500);
+                return StatusCode(500, ModelState);
             }
 
             return NoContent();
@@ -146,7 +148,7 @@ namespace ExercisingPlanAPI.Controllers
         {
             if (userDto.Id < 1)
             {
-                ModelState.AddModelError("BodyError", "You must specify user id");
+                ModelState.AddModelError("BodyError", ZERO_ID_ERROR_MESSAGE);
                 return BadRequest(ModelState);
             }
 
@@ -154,7 +156,7 @@ namespace ExercisingPlanAPI.Controllers
 
             if (!isUserExisted)
             {
-                ModelState.AddModelError("BodyError", "User with such id doesn't exist");
+                ModelState.AddModelError("BodyError", USER_NOT_EXISTED_ERROR_MESSAGE);
                 return BadRequest(ModelState);
             }
 
@@ -165,6 +167,40 @@ namespace ExercisingPlanAPI.Controllers
             if (!isUpdated)
             {
                 ModelState.AddModelError("SqlError", "Something went wrong during updating the user");
+                return StatusCode(500);
+            }
+
+            return NoContent();
+        }
+
+        [HttpDelete]
+        [Route("deleteUserById")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> DeleteUserByIdAsync([FromBody] int id)
+        {
+            if (id < 1)
+            {
+                ModelState.AddModelError("BodyError", ZERO_ID_ERROR_MESSAGE);
+                return BadRequest(ModelState);
+            }
+
+            bool isUserExisted = await _service.IsUserExistedAsync(id);
+
+            if (!isUserExisted)
+            {
+                ModelState.AddModelError("Body error", USER_NOT_EXISTED_ERROR_MESSAGE);
+                return BadRequest(ModelState);
+            }
+
+            var user = await _service.GetUserByIdAsync(id);
+
+            bool isDeleted = await _service.DeleteUserAsync(user);
+
+            if (!isDeleted)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during deleting the user");
                 return StatusCode(500);
             }
 

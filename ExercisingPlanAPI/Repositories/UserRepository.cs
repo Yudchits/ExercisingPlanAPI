@@ -31,19 +31,19 @@ namespace ExercisingPlanAPI.Repositories
             return await _context.Users.FirstOrDefaultAsync(user => user.LastName.ToLower() == lastName.ToLower());
         }
 
-        public async Task<ICollection<User>> GetUserPupilsAsync(User user)
+        public async Task<ICollection<User>> GetUserPupilsAsync(int id)
         {
-            return await _context.CoachPupils.Where(cp => cp.CoachId == user.Id).Select(cp => cp.Pupil).ToListAsync();
+            return await _context.CoachPupils.Where(cp => cp.CoachId == id).Select(cp => cp.Pupil).ToListAsync();
         }
 
-        public async Task<ICollection<Role>> GetUserRolesAsync(User user)
+        public async Task<ICollection<Role>> GetUserRolesAsync(int id)
         {
-            return await _context.UserRoles.Where(ur => ur.UserId == user.Id).Select(ur => ur.Role).ToListAsync();
+            return await _context.UserRoles.Where(ur => ur.UserId == id).Select(ur => ur.Role).ToListAsync();
         }
 
-        public async Task<ICollection<User>> GetUserSubscribersAsync(User user)
+        public async Task<ICollection<User>> GetUserSubscribersAsync(int id)
         {
-            return await _context.UserSubscribers.Where(us => us.SubscribeToId == user.Id).Select(us => us.Subscriber).ToListAsync();
+            return await _context.UserSubscribers.Where(us => us.SubscribeToId == id).Select(us => us.Subscriber).ToListAsync();
         }
 
         public async Task<bool> CreateUserAsync(User user)

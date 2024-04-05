@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ExercisingPlanAPI.DTOs;
+using ExercisingPlanAPI.Models;
 using ExercisingPlanAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -66,7 +67,7 @@ namespace ExercisingPlanAPI.Controllers
         }
 
         [HttpGet]
-        [Route("getByLastName")]
+        [Route("getUserByLastName")]
         [ProducesResponseType(200, Type = typeof(UserDto))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetUserByLastName([FromQuery] string lastName)
@@ -82,5 +83,32 @@ namespace ExercisingPlanAPI.Controllers
 
             return Ok(userMap);
         }
+
+        [HttpGet]
+        [Route("getCoachPupils")]
+        [ProducesResponseType(200, Type = typeof(ICollection<UserDto>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetCoachPupilsAsync([FromQuery] int id)
+        {
+            var isUserExisted = await _service.IsUserExistedAsync(id);
+
+            if (!isUserExisted)
+            {
+                return BadRequest();
+            }
+
+            var userPupils = await _service.GetUserPupilsAsync(id);
+
+            if (userPupils.Count == 0)
+            {
+                return NoContent();
+            }
+
+            var userPupilsMap = _mapper.Map<ICollection<UserDto>>(userPupils);
+
+            return Ok(userPupilsMap);
+        }
+
     }
 }

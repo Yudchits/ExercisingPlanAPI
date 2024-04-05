@@ -29,19 +29,19 @@ namespace ExercisingPlanAPI.Services
             return await _repository.GetUserByLastNameAsync(lastName);
         }
 
-        public async Task<ICollection<User>> GetUserPupilsAsync(User user)
+        public async Task<ICollection<User>> GetUserPupilsAsync(int id)
         {
-            return await _repository.GetUserPupilsAsync(user);
+            return await _repository.GetUserPupilsAsync(id);
         }
 
-        public async Task<ICollection<Role>> GetUserRolesAsync(User user)
+        public async Task<ICollection<Role>> GetUserRolesAsync(int id)
         {
-            return await _repository.GetUserRolesAsync(user);
+            return await _repository.GetUserRolesAsync(id);
         }
 
-        public async Task<ICollection<User>> GetUserSubscribersAsync(User user)
+        public async Task<ICollection<User>> GetUserSubscribersAsync(int id)
         {
-            return await _repository.GetUserSubscribersAsync(user);
+            return await _repository.GetUserSubscribersAsync(id);
         }
 
         public async Task<bool> CreateUserAsync(User user)

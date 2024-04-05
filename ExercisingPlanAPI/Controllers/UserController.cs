@@ -88,6 +88,33 @@ namespace ExercisingPlanAPI.Controllers
         }
 
         [HttpGet]
+        [Route("getUserSubscribers")]
+        [ProducesResponseType(200, Type = typeof(ICollection<UserDto>))]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> GetUserSubscribersAsync([FromQuery] int id)
+        {
+            bool isUserExisted = await _service.IsUserExistedAsync(id);
+
+            if (!isUserExisted)
+            {
+                ModelState.AddModelError("BodyError", USER_NOT_EXISTED_ERROR_MESSAGE);
+                return BadRequest(ModelState);
+            }
+
+            var subscribers = await _service.GetUserSubscribersAsync(id);
+
+            if (subscribers.Count == 0)
+            {
+                return NoContent();
+            }
+
+            var subscribersMap = _mapper.Map<ICollection<UserDto>>(subscribers);
+
+            return Ok(subscribersMap);
+        }
+
+        [HttpGet]
         [Route("getCoachPupils")]
         [ProducesResponseType(200, Type = typeof(ICollection<UserDto>))]
         [ProducesResponseType(204)]
@@ -98,7 +125,8 @@ namespace ExercisingPlanAPI.Controllers
 
             if (!isUserExisted)
             {
-                return BadRequest();
+                ModelState.AddModelError("BodyError", USER_NOT_EXISTED_ERROR_MESSAGE);
+                return BadRequest(ModelState);
             }
 
             var userPupils = await _service.GetUserPupilsAsync(id);

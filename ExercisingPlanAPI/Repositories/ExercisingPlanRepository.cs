@@ -54,7 +54,7 @@ namespace ExercisingPlanAPI.Repositories
 
         public async Task<ExercisingPlan> GetExercisingPlanByIdAsync(int id)
         {
-            return await _context.ExercisingPlans.FirstOrDefaultAsync(ep => ep.Id == id);
+            return await _context.ExercisingPlans.Include(ep => ep.Owner).Include(ep => ep.WeekPlans).FirstOrDefaultAsync(ep => ep.Id == id);
         }
 
         public async Task<ICollection<ExercisingPlan>> GetExercisingPlansOfOwnerAsync(int ownerId)

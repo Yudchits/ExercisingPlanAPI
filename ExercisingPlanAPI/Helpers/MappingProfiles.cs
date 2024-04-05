@@ -12,6 +12,8 @@ namespace ExercisingPlanAPI.Helpers
             CreateMap<UserDto, User>();
             CreateMap<Role, RoleDto>();
             CreateMap<RoleDto, Role>();
+            CreateMap<ExercisingPlan, ExercisingPlanDto>();
+            CreateMap<ExercisingPlanDto, ExercisingPlan>();
         }
     }
 }

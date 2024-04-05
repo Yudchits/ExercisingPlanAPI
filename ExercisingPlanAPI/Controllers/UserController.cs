@@ -115,6 +115,33 @@ namespace ExercisingPlanAPI.Controllers
         }
 
         [HttpGet]
+        [Route("getUserRoles")]
+        [ProducesResponseType(200, Type = typeof(ICollection<RoleDto>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetUserRolesAsync([FromQuery] int id)
+        {
+            var isUserExisted = await _service.IsUserExistedAsync(id);
+
+            if (!isUserExisted)
+            {
+                ModelState.AddModelError("BodyError", USER_NOT_EXISTED_ERROR_MESSAGE);
+                return BadRequest(ModelState);
+            }
+
+            var roles = await _service.GetUserRolesAsync(id);
+
+            if (roles.Count == 0)
+            {
+                return NoContent();
+            }
+
+            var rolesMap = _mapper.Map<ICollection<RoleDto>>(roles);
+
+            return Ok(rolesMap);
+        }
+
+        [HttpGet]
         [Route("getCoachPupils")]
         [ProducesResponseType(200, Type = typeof(ICollection<UserDto>))]
         [ProducesResponseType(204)]

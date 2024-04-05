@@ -4,6 +4,7 @@ using ExercisingPlanAPI.Models;
 using ExercisingPlanAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
 
 namespace ExercisingPlanAPI.Controllers
@@ -119,7 +120,7 @@ namespace ExercisingPlanAPI.Controllers
         {
             if (userDto.Id > 0)
             {
-                ModelState.AddModelError("SqlError", "You can't specify 'id' manually. Id must be 0");
+                ModelState.AddModelError("BodyError", "You can't specify 'id' manually. Id must be 0");
                 return StatusCode(400, ModelState);
             }
 
@@ -130,6 +131,40 @@ namespace ExercisingPlanAPI.Controllers
             if (!isSaved)
             {
                 ModelState.AddModelError("SqlError", "Something went wrong during saving the user");
+                return StatusCode(500);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Route("updateUser")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> UpdateUserAsync([FromBody] UserDto userDto)
+        {
+            if (userDto.Id < 1)
+            {
+                ModelState.AddModelError("BodyError", "You must specify user id");
+                return BadRequest(ModelState);
+            }
+
+            bool isUserExisted = await _service.IsUserExistedAsync(userDto.Id);
+
+            if (!isUserExisted)
+            {
+                ModelState.AddModelError("BodyError", "User with such id doesn't exist");
+                return BadRequest(ModelState);
+            }
+
+            var user = _mapper.Map<User>(userDto);
+
+            var isUpdated = await _service.UpdateUserAsync(user);
+
+            if (!isUpdated)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during updating the user");
                 return StatusCode(500);
             }
 

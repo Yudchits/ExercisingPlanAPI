@@ -202,6 +202,18 @@ namespace ExercisingPlanAPI.Helpers
                 Owner = coach1
             };
 
+            var userPlan1 = new UserExercisingPlan
+            {
+                User = pupil1,
+                ExercisingPlan = exercisingPlan1
+            };
+
+            var userPlan2 = new UserExercisingPlan
+            {
+                User = pupil1,
+                ExercisingPlan = exercisingPlan2
+            };
+
             var userSubscriber1 = new UserSubscriber
             {
                 SubscribeTo = coach1,
@@ -249,8 +261,8 @@ namespace ExercisingPlanAPI.Helpers
                 Pupil = pupil2
             };
 
-            _context.ExercisingPlans.AddRange(exercisingPlan1);
-            _context.ExercisingPlans.AddRange(exercisingPlan2);
+            _context.UserExercisingPlans.AddRange(userPlan1);
+            _context.UserExercisingPlans.AddRange(userPlan2);
 
             _context.UserSubscribers.Add(userSubscriber1);
             _context.UserSubscribers.Add(userSubscriber2);

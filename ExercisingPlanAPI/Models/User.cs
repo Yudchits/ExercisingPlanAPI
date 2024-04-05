@@ -14,5 +14,6 @@ namespace ExercisingPlanAPI.Models
         public ICollection<UserSubscriber> UserSubscribers { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<CoachPupil> CoachPupils { get; set; }
+        public ICollection<UserExercisingPlan> UserExercisingPlans { get; set; }
     }
 }

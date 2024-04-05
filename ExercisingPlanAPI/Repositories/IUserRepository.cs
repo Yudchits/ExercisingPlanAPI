@@ -15,7 +15,7 @@ namespace ExercisingPlanAPI.Repositories
         Task<bool> CreateUserAsync(User user);
         Task<bool> UpdateUserAsync(User user);
         Task<bool> DeleteUserAsync(User user);
-        Task<bool> IsUserExistedAsync(int id);
+        Task<bool> UserExistsAsync(int id);
         Task<bool> SaveChangesAsync();
     }
 }

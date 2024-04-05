@@ -16,6 +16,7 @@ namespace ExercisingPlanAPI.Data
         public DbSet<Weekday> Weekdays { get; set; }
         public DbSet<WeekNumber> WeekNumbers { get; set; }
         public DbSet<WeekPlan> WeekPlans { get; set; }
+        public DbSet<UserExercisingPlan> UserExercisingPlans { get; set; }
 
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
@@ -92,6 +93,22 @@ namespace ExercisingPlanAPI.Data
                 .HasOne(wp => wp.Exercise)
                 .WithMany()
                 .HasForeignKey(we => we.ExerciseId);
+
+            // UserExercisingPlan relationship
+            modelBuilder.Entity<UserExercisingPlan>()
+                .HasKey(ue => new { ue.UserId, ue.ExercisingPlanId });
+
+            modelBuilder.Entity<UserExercisingPlan>()
+                .HasOne(ue => ue.User)
+                .WithMany(u => u.UserExercisingPlans)
+                .HasForeignKey(ue => ue.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<UserExercisingPlan>()
+                .HasOne(ue => ue.ExercisingPlan)
+                .WithMany(e => e.UserExercisingPlans)
+                .HasForeignKey(ue => ue.ExercisingPlanId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

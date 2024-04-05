@@ -58,9 +58,9 @@ namespace ExercisingPlanAPI.Services
         {
             return await _repository.UpdateUserAsync(user);
         }
-        public async Task<bool> IsUserExistedAsync(int id)
+        public async Task<bool> UserExistsAsync(int id)
         {
-            return await _repository.IsUserExistedAsync(id);
+            return await _repository.UserExistsAsync(id);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace ExercisingPlanAPI.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetUserByIdAsync([FromQuery] int id)
         {
-            bool isUserExisted = await _service.IsUserExistedAsync(id);
+            bool isUserExisted = await _service.UserExistsAsync(id);
 
             if (!isUserExisted)
             {
@@ -94,9 +94,9 @@ namespace ExercisingPlanAPI.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetUserSubscribersAsync([FromQuery] int id)
         {
-            bool isUserExisted = await _service.IsUserExistedAsync(id);
+            bool userExists = await _service.UserExistsAsync(id);
 
-            if (!isUserExisted)
+            if (!userExists)
             {
                 ModelState.AddModelError("BodyError", USER_NOT_EXISTED_ERROR_MESSAGE);
                 return BadRequest(ModelState);
@@ -121,9 +121,9 @@ namespace ExercisingPlanAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetUserRolesAsync([FromQuery] int id)
         {
-            var isUserExisted = await _service.IsUserExistedAsync(id);
+            var userExists = await _service.UserExistsAsync(id);
 
-            if (!isUserExisted)
+            if (!userExists)
             {
                 ModelState.AddModelError("BodyError", USER_NOT_EXISTED_ERROR_MESSAGE);
                 return BadRequest(ModelState);
@@ -148,9 +148,9 @@ namespace ExercisingPlanAPI.Controllers
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetCoachPupilsAsync([FromQuery] int id)
         {
-            var isUserExisted = await _service.IsUserExistedAsync(id);
+            var userExists = await _service.UserExistsAsync(id);
 
-            if (!isUserExisted)
+            if (!userExists)
             {
                 ModelState.AddModelError("BodyError", USER_NOT_EXISTED_ERROR_MESSAGE);
                 return BadRequest(ModelState);
@@ -207,9 +207,9 @@ namespace ExercisingPlanAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            bool isUserExisted = await _service.IsUserExistedAsync(userDto.Id);
+            bool userExists = await _service.UserExistsAsync(userDto.Id);
 
-            if (!isUserExisted)
+            if (!userExists)
             {
                 ModelState.AddModelError("BodyError", USER_NOT_EXISTED_ERROR_MESSAGE);
                 return BadRequest(ModelState);
@@ -241,9 +241,9 @@ namespace ExercisingPlanAPI.Controllers
                 return BadRequest(ModelState);
             }
 
-            bool isUserExisted = await _service.IsUserExistedAsync(id);
+            bool userExists = await _service.UserExistsAsync(id);
 
-            if (!isUserExisted)
+            if (!userExists)
             {
                 ModelState.AddModelError("Body error", USER_NOT_EXISTED_ERROR_MESSAGE);
                 return BadRequest(ModelState);

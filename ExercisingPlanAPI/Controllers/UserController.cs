@@ -23,9 +23,15 @@ namespace ExercisingPlanAPI.Controllers
         [HttpGet]
         [Route("getAllUsers")]
         [ProducesResponseType(200, Type = typeof(ICollection<UserDto>))]
+        [ProducesResponseType(204)]
         public async Task<IActionResult> GetAllUsersAsync()
         {
             var allUsers = await _service.GetAllUsersAsync();
+
+            if (allUsers.Count == 0)
+            {
+                return NoContent();
+            }
 
             var allUsersMap = _mapper.Map<ICollection<UserDto>>(allUsers);
 
@@ -52,6 +58,24 @@ namespace ExercisingPlanAPI.Controllers
             {
                 ModelState.AddModelError("SqlError", "Internal Error While Getting User From Database");
                 return StatusCode(500, ModelState);
+            }
+
+            var userMap = _mapper.Map<UserDto>(user);
+
+            return Ok(userMap);
+        }
+
+        [HttpGet]
+        [Route("getByLastName")]
+        [ProducesResponseType(200, Type = typeof(UserDto))]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetUserByLastName([FromQuery] string lastName)
+        {
+            var user = await _service.GetUserByLastNameAsync(lastName);
+
+            if (user == null)
+            {
+                return BadRequest();
             }
 
             var userMap = _mapper.Map<UserDto>(user);

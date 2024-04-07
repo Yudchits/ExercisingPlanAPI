@@ -35,7 +35,9 @@ namespace ExercisingPlanAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IExercisingPlanService, ExercisingPlanService>();
             services.AddScoped<IExercisingPlanRepository, ExercisingPlanRepository>();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ExercisingPlanAPI", Version = "v1" });

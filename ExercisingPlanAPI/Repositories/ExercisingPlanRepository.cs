@@ -49,17 +49,28 @@ namespace ExercisingPlanAPI.Repositories
 
         public async Task<ICollection<ExercisingPlan>> GetAvailableExercisingPlans(int userId)
         {
-            return await _context.UserExercisingPlans.Where(uep => uep.UserId == userId).Select(uep => uep.ExercisingPlan).ToListAsync(); 
+            return await _context.UserExercisingPlans
+                .Where(uep => uep.UserId == userId)
+                .Select(uep => uep.ExercisingPlan)
+                .ToListAsync(); 
         }
 
         public async Task<ExercisingPlan> GetExercisingPlanByIdAsync(int id)
         {
-            return await _context.ExercisingPlans.Include(ep => ep.Owner).Include(ep => ep.WeekPlans).FirstOrDefaultAsync(ep => ep.Id == id);
+            return await _context.ExercisingPlans.Include(ep => ep.Owner)
+                .Include(ep => ep.WeekPlans).ThenInclude(wp => wp.WeekNumber)
+                .Include(ep => ep.WeekPlans).ThenInclude(wp => wp.Weekday)
+                .Include(ep => ep.WeekPlans)
+                    .ThenInclude(wp => wp.Exercise)
+                    .ThenInclude(e => e.TargetMuscleGroup)
+                .FirstOrDefaultAsync(ep => ep.Id == id);
         }
 
         public async Task<ICollection<ExercisingPlan>> GetExercisingPlansOfOwnerAsync(int ownerId)
         {
-            return await _context.ExercisingPlans.Where(ep => ep.OwnerId == ownerId).ToListAsync();
+            return await _context.ExercisingPlans
+                .Where(ep => ep.OwnerId == ownerId)
+                .ToListAsync();
         }
 
         public async Task<bool> MakeExercisingPlanAvailableForUserAsync(UserExercisingPlan userPlans)

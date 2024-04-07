@@ -1,6 +1,6 @@
 ﻿namespace ExercisingPlanAPI.DTOs
 {
-    public class ExerciseDto
+    public class ExerciseBriefDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

@@ -10,10 +10,25 @@ namespace ExercisingPlanAPI.Helpers
         {
             CreateMap<User, UserDto>();
             CreateMap<UserDto, User>();
+            
             CreateMap<Role, RoleDto>();
             CreateMap<RoleDto, Role>();
-            CreateMap<ExercisingPlan, ExercisingPlanDto>();
-            CreateMap<ExercisingPlanDto, ExercisingPlan>();
+
+            CreateMap<TargetMuscleGroup, TargetMuscleGroupDto>();
+            CreateMap<TargetMuscleGroupDto, TargetMuscleGroup>();
+
+            CreateMap<WeekPlan, WeekPlanDto>();
+            CreateMap<WeekPlanDto, WeekPlan>();
+
+            CreateMap<Exercise, ExerciseBriefDto>();
+            CreateMap<ExerciseBriefDto, Exercise>();
+            CreateMap<Exercise, ExerciseFullDto>();
+            CreateMap<ExerciseFullDto, Exercise>();
+
+            CreateMap<ExercisingPlan, ExercisingPlanBriefDto>();
+            CreateMap<ExercisingPlanBriefDto, ExercisingPlan>();
+            CreateMap<ExercisingPlan, ExercisingPlanFullDto>();
+            CreateMap<ExercisingPlanFullDto, ExercisingPlan>();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace ExercisingPlanAPI.Models
+﻿namespace ExercisingPlanAPI.Models
 {
     public class Exercise
     {

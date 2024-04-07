@@ -33,6 +33,8 @@ namespace ExercisingPlanAPI
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IExercisingPlanService, ExercisingPlanService>();
+            services.AddScoped<IExercisingPlanRepository, ExercisingPlanRepository>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

@@ -71,3 +71,4 @@ D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\bin\D
 D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
 D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\obj\Debug\net5.0\ExercisingPlanAPI.sourcelink.json

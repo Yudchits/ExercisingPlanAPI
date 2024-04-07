@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using ExercisingPlanAPI.DTOs;
+using ExercisingPlanAPI.Models;
 using ExercisingPlanAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ExercisingPlanAPI.Controllers
@@ -61,7 +63,7 @@ namespace ExercisingPlanAPI.Controllers
                 ModelState.AddModelError("SqlError", "Something went wrong during getting an exercising plan");
                 return StatusCode(500, ModelState);
             }
-            
+
             var planMap = _mapper.Map<ExercisingPlanFullDto>(plan);
 
             return Ok(planMap);
@@ -116,6 +118,57 @@ namespace ExercisingPlanAPI.Controllers
             var availablePlansMap = _mapper.Map<ICollection<ExercisingPlanBriefDto>>(availablePlans);
 
             return Ok(availablePlansMap);
+        }
+
+        [HttpPost]
+        [Route("makePlanAvailableForUser")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> MakeExercisingPlanAvailableForUserAsync([FromQuery] int planId, [FromBody] int userId)
+        {
+            bool planExists = await _planService.ExercisingPlanExistsAsync(planId);
+            bool userExists = await _userService.UserExistsAsync(userId);
+
+            if (!planExists || !userExists)
+            {
+                ModelState.AddModelError("BodyError", "User/Plan with such 'id' doesn't exist");
+                return BadRequest(ModelState);
+            }
+
+            var availablePlans = await _planService.GetAvailableExercisingPlansAsync(userId);
+            var isAlreadyAvailable = availablePlans.Any(ep => ep.Id == planId);
+
+            if (isAlreadyAvailable)
+            {
+                ModelState.AddModelError("BodyError", "The plan is already available for the user");
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userService.GetUserByIdAsync(userId);
+            var plan = await _planService.GetExercisingPlanByIdAsync(planId);
+
+            if (user == null || plan == null)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during getting an entity");
+                return StatusCode(500, ModelState);
+            }
+
+            var userPlan = new UserExercisingPlan
+            {
+                User = user,
+                ExercisingPlan = plan
+            };
+
+            bool isSaved = await _planService.MakeExercisingPlanAvailableForUserAsync(userPlan);
+
+            if (!isSaved)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during saving an entity");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
         }
     }
 }

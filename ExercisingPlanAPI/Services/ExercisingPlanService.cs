@@ -39,9 +39,9 @@ namespace ExercisingPlanAPI.Services
             return await _repository.GetAllExercisingPlansAsync();
         }
 
-        public async Task<ICollection<ExercisingPlan>> GetAvailableExercisingPlans(int userId)
+        public async Task<ICollection<ExercisingPlan>> GetAvailableExercisingPlansAsync(int userId)
         {
-            return await _repository.GetAvailableExercisingPlans(userId);
+            return await _repository.GetAvailableExercisingPlansAsync(userId);
         }
 
         public async Task<ExercisingPlan> GetExercisingPlanByIdAsync(int id)

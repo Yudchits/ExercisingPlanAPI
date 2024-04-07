@@ -11,13 +11,13 @@ namespace ExercisingPlanAPI.Controllers
     [Route("api/[controller]")]
     public class ExercisingPlanController : Controller
     {
-        private readonly IExercisingPlanService _service;
+        private readonly IExercisingPlanService _planService;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
         public ExercisingPlanController(IExercisingPlanService planService, IUserService userService, IMapper mapper)
         {
-            _service = planService;
+            _planService = planService;
             _userService = userService;
             _mapper = mapper;
         }
@@ -28,7 +28,7 @@ namespace ExercisingPlanAPI.Controllers
         [ProducesResponseType(204)]
         public async Task<IActionResult> GetAllExercisingPlansAsync()
         {
-            var plans = await _service.GetAllExercisingPlansAsync();
+            var plans = await _planService.GetAllExercisingPlansAsync();
 
             if (plans.Count == 0)
             {
@@ -47,14 +47,14 @@ namespace ExercisingPlanAPI.Controllers
         [ProducesResponseType(500)]
         public async Task<IActionResult> GetExercisingPlanByIdAsync([FromQuery] int id)
         {
-            bool planExists = await _service.ExercisingPlanExistsAsync(id);
+            bool planExists = await _planService.ExercisingPlanExistsAsync(id);
 
             if (!planExists)
             {
                 return BadRequest();
             }
 
-            var plan = await _service.GetExercisingPlanByIdAsync(id);
+            var plan = await _planService.GetExercisingPlanByIdAsync(id);
 
             if (plan == null)
             {
@@ -80,7 +80,7 @@ namespace ExercisingPlanAPI.Controllers
                 return BadRequest();
             }
 
-            var plans = await _service.GetExercisingPlansOfOwnerAsync(id);
+            var plans = await _planService.GetExercisingPlansOfOwnerAsync(id);
 
             if (plans.Count == 0)
             {
@@ -90,6 +90,32 @@ namespace ExercisingPlanAPI.Controllers
             var plansMap = _mapper.Map<ICollection<ExercisingPlanBriefDto>>(plans);
 
             return Ok(plansMap);
+        }
+
+        [HttpGet]
+        [Route("getAvailableExercisingPlans")]
+        [ProducesResponseType(200, Type = typeof(ICollection<ExercisingPlanBriefDto>))]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public async Task<IActionResult> GetAvailableExercisingPlansAsync([FromQuery] int userId)
+        {
+            bool userExists = await _userService.UserExistsAsync(userId);
+
+            if (!userExists)
+            {
+                return BadRequest();
+            }
+
+            var availablePlans = await _planService.GetAvailableExercisingPlansAsync(userId);
+
+            if (availablePlans.Count == 0)
+            {
+                return NoContent();
+            }
+
+            var availablePlansMap = _mapper.Map<ICollection<ExercisingPlanBriefDto>>(availablePlans);
+
+            return Ok(availablePlansMap);
         }
     }
 }

@@ -47,7 +47,7 @@ namespace ExercisingPlanAPI.Repositories
             return await _context.ExercisingPlans.ToListAsync();
         }
 
-        public async Task<ICollection<ExercisingPlan>> GetAvailableExercisingPlans(int userId)
+        public async Task<ICollection<ExercisingPlan>> GetAvailableExercisingPlansAsync(int userId)
         {
             return await _context.UserExercisingPlans
                 .Where(uep => uep.UserId == userId)

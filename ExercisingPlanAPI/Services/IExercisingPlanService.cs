@@ -9,7 +9,7 @@ namespace ExercisingPlanAPI.Services
         Task<ICollection<ExercisingPlan>> GetAllExercisingPlansAsync();
         Task<ExercisingPlan> GetExercisingPlanByIdAsync(int id);
         Task<ICollection<ExercisingPlan>> GetExercisingPlansOfOwnerAsync(int ownerId);
-        Task<ICollection<ExercisingPlan>> GetAvailableExercisingPlans(int userId);
+        Task<ICollection<ExercisingPlan>> GetAvailableExercisingPlansAsync(int userId);
         Task<bool> MakeExercisingPlanAvailableForUserAsync(UserExercisingPlan userPlans);
         Task<bool> DeleteAccessToExercisingPlanAsync(UserExercisingPlan userPlans);
         Task<bool> CreateExercisingPlanAsync(ExercisingPlan plan);

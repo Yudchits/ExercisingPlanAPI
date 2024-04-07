@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using ExercisingPlanAPI.DTOs;
-using ExercisingPlanAPI.Models;
 using ExercisingPlanAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ExercisingPlanAPI.Controllers
@@ -14,11 +12,13 @@ namespace ExercisingPlanAPI.Controllers
     public class ExercisingPlanController : Controller
     {
         private readonly IExercisingPlanService _service;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public ExercisingPlanController(IExercisingPlanService service, IMapper mapper)
+        public ExercisingPlanController(IExercisingPlanService planService, IUserService userService, IMapper mapper)
         {
-            _service = service;
+            _service = planService;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -65,6 +65,31 @@ namespace ExercisingPlanAPI.Controllers
             var planMap = _mapper.Map<ExercisingPlanFullDto>(plan);
 
             return Ok(planMap);
+        }
+
+        [HttpGet]
+        [Route("getExercisingPlansOfOwner")]
+        [ProducesResponseType(200, Type = typeof(ICollection<ExercisingPlanBriefDto>))]
+        [ProducesResponseType(204)]
+        public async Task<IActionResult> GetExercisingPlansOfOwnerAsync([FromQuery] int id)
+        {
+            bool userExists = await _userService.UserExistsAsync(id);
+
+            if (!userExists)
+            {
+                return BadRequest();
+            }
+
+            var plans = await _service.GetExercisingPlansOfOwnerAsync(id);
+
+            if (plans.Count == 0)
+            {
+                return NoContent();
+            }
+
+            var plansMap = _mapper.Map<ICollection<ExercisingPlanBriefDto>>(plans);
+
+            return Ok(plansMap);
         }
     }
 }

@@ -5,6 +5,7 @@ using ExercisingPlanAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace ExercisingPlanAPI.Controllers
@@ -132,7 +133,7 @@ namespace ExercisingPlanAPI.Controllers
 
             if (!planExists || !userExists)
             {
-                ModelState.AddModelError("BodyError", "User/Plan with such 'id' doesn't exist");
+                ModelState.AddModelError("BodyError", "There's no user/plan with such 'id'");
                 return BadRequest(ModelState);
             }
 
@@ -141,18 +142,12 @@ namespace ExercisingPlanAPI.Controllers
 
             if (isAlreadyAvailable)
             {
-                ModelState.AddModelError("BodyError", "The plan is already available for the user");
+                ModelState.AddModelError("BodyError", "The plan is already available");
                 return BadRequest(ModelState);
             }
 
             var user = await _userService.GetUserByIdAsync(userId);
             var plan = await _planService.GetExercisingPlanByIdAsync(planId);
-
-            if (user == null || plan == null)
-            {
-                ModelState.AddModelError("SqlError", "Something went wrong during getting an entity");
-                return StatusCode(500, ModelState);
-            }
 
             var userPlan = new UserExercisingPlan
             {
@@ -164,7 +159,52 @@ namespace ExercisingPlanAPI.Controllers
 
             if (!isSaved)
             {
-                ModelState.AddModelError("SqlError", "Something went wrong during saving an entity");
+                ModelState.AddModelError("SqlError", "Something went wrong during saving the entity");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Route("deleteAccessToExercisingPlan")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> DeleteAccessToExercisingPlanAsync([FromQuery] int planId, [FromBody] int userId)
+        {
+            bool planExists = await _planService.ExercisingPlanExistsAsync(planId);
+            bool userExists = await _userService.UserExistsAsync(userId);
+
+            if (!planExists || !userExists)
+            {
+                ModelState.AddModelError("BodyError", "There's no user/plan with such 'id'");
+                return BadRequest(ModelState);
+            }
+
+            var availablePlans = await _planService.GetAvailableExercisingPlansAsync(userId);
+            var isAvailable = availablePlans.Any(ep => ep.Id == planId);
+
+            if (!isAvailable)
+            {
+                ModelState.AddModelError("BodyError", "The plan haven't been available");
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userService.GetUserByIdAsync(userId);
+            var plan = await _planService.GetExercisingPlanByIdAsync(planId);
+
+            var userPlan = new UserExercisingPlan
+            {
+                User = user,
+                ExercisingPlan = plan
+            };
+
+            bool isDeleted = await _planService.DeleteAccessToExercisingPlanAsync(userPlan);
+
+            if (!isDeleted)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during deleting the entity");
                 return StatusCode(500, ModelState);
             }
 

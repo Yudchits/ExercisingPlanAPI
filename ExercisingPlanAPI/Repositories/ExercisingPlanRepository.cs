@@ -18,7 +18,7 @@ namespace ExercisingPlanAPI.Repositories
 
         public async Task<bool> CreateExercisingPlanAsync(ExercisingPlan plan)
         {
-            await _context.AddAsync(plan);
+            await _context.ExercisingPlans.AddAsync(plan);
             var isCreated = await SaveChangesAsync();
             return isCreated;
         }

@@ -210,5 +210,49 @@ namespace ExercisingPlanAPI.Controllers
 
             return NoContent();
         }
+
+        [HttpPost]
+        [Route("createExercisingPlan")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> CreateExercisingPlanAsync([FromQuery] int userId, [FromQuery] string planName, [FromBody] WeekPlanDto[] weekPlanDtos)
+        {
+            bool userExists = await _userService.UserExistsAsync(userId);
+
+            if (!userExists)
+            {
+                ModelState.AddModelError("BodyError", "There's no user with such 'id'");
+                return BadRequest(ModelState);
+            }
+
+            var userPlans = await _planService.GetExercisingPlansOfOwnerAsync(userId);
+            bool planWithSuchNameExists = userPlans.Any(plan => plan.Name == planName);
+
+            if (planWithSuchNameExists)
+            {
+                ModelState.AddModelError("BodyError", "User already has a plan with such name");
+                return BadRequest(ModelState);
+            }
+
+            var weekPlans = _mapper.Map<ICollection<WeekPlan>>(weekPlanDtos);
+
+            var exercisingPlan = new ExercisingPlan
+            {
+                Name = planName,
+                OwnerId = userId,
+                WeekPlans = weekPlans
+            };
+
+            bool isSaved = await _planService.CreateExercisingPlanAsync(exercisingPlan);
+
+            if (!isSaved)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during saving the entity");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }

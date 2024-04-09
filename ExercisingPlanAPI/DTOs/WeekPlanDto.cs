@@ -1,11 +1,10 @@
-﻿using ExercisingPlanAPI.Models;
-
-namespace ExercisingPlanAPI.DTOs
+﻿namespace ExercisingPlanAPI.DTOs
 {
     public class WeekPlanDto
     {
-        public WeekNumber WeekNumber { get; set; }
-        public Weekday Weekday { get; set; }
-        public ExerciseFullDto Exercise { get; set; }
+        public int WeekNumberId { get; set; }
+        public int WeekdayId { get; set; }
+        public int ExercisingPlanId { get; set; }
+        public int ExerciseId { get; set; }
     }
 }

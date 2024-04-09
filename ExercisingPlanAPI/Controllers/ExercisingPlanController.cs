@@ -298,5 +298,39 @@ namespace ExercisingPlanAPI.Controllers
 
             return NoContent();
         }
+
+        [HttpDelete]
+        [Route("deleteExercisingPlan")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> DeleteExercisingPlanAsync([FromBody] int planId)
+        {
+            bool planExists = await _planService.ExercisingPlanExistsAsync(planId);
+
+            if (!planExists)
+            {
+                ModelState.AddModelError("BodyError", "There's no exercising plan with such 'id'");
+                return BadRequest(ModelState);
+            }
+
+            var exercisingPlan = await _planService.GetExercisingPlanByIdAsync(planId);
+
+            if (exercisingPlan == null)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during getting the entity");
+                return StatusCode(500, ModelState);
+            }
+
+            bool isDeleted = await _planService.DeleteExercisingPlanAsync(exercisingPlan);
+
+            if (!isDeleted)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during deleting the entity");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }

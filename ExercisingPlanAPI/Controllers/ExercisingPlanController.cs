@@ -254,5 +254,49 @@ namespace ExercisingPlanAPI.Controllers
 
             return NoContent();
         }
+
+        // TODO: add checking if weekNumber, weekday and exercise exist
+        [HttpPut]
+        [Route("updateExercisingPlan")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        public async Task<IActionResult> UpdateExercisingPlanAsync([FromQuery] int planId, [FromQuery] string newPlanName, [FromBody] WeekPlanDto[] weekPlanDtos)
+        {
+            bool planExists = await _planService.ExercisingPlanExistsAsync(planId);
+
+            if (!planExists)
+            {
+                ModelState.AddModelError("BodyError", "There's no exercising plan with such 'id'");
+                return BadRequest(ModelState);
+            }
+
+            var exercisingPlan = await _planService.GetExercisingPlanByIdAsync(planId);
+
+            if (exercisingPlan == null)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during getting the entity");
+                return StatusCode(500, ModelState);
+            }
+
+            if (!exercisingPlan.Name.Equals(newPlanName))
+            {
+                exercisingPlan.Name = newPlanName;
+            }
+
+            var weekPlans = _mapper.Map<ICollection<WeekPlan>>(weekPlanDtos);
+
+            exercisingPlan.WeekPlans = weekPlans;
+
+            bool isUpdated = await _planService.UpdateExercisingPlanAsync(exercisingPlan);
+
+            if (!isUpdated)
+            {
+                ModelState.AddModelError("SqlError", "Something went wrong during updating the entity");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
     }
 }

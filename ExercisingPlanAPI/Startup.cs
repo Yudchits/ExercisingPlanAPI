@@ -60,6 +60,11 @@ namespace ExercisingPlanAPI
 
             app.UseAuthorization();
 
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod();
+            });
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

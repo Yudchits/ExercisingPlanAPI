@@ -5,7 +5,6 @@ using ExercisingPlanAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Threading.Tasks;
 
 namespace ExercisingPlanAPI.Controllers
@@ -216,7 +215,7 @@ namespace ExercisingPlanAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> CreateExercisingPlanAsync([FromQuery] int userId, [FromQuery] string planName, [FromBody] WeekPlanDto[] weekPlanDtos)
+        public async Task<IActionResult> CreateExercisingPlanAsync([FromQuery] int userId, [FromQuery] string planName, [FromBody] WeekPlanIdDto[] weekPlanDtos)
         {
             bool userExists = await _userService.UserExistsAsync(userId);
 
@@ -261,7 +260,7 @@ namespace ExercisingPlanAPI.Controllers
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
-        public async Task<IActionResult> UpdateExercisingPlanAsync([FromQuery] int planId, [FromQuery] string newPlanName, [FromBody] WeekPlanDto[] weekPlanDtos)
+        public async Task<IActionResult> UpdateExercisingPlanAsync([FromQuery] int planId, [FromQuery] string newPlanName, [FromBody] WeekPlanIdDto[] weekPlanDtos)
         {
             bool planExists = await _planService.ExercisingPlanExistsAsync(planId);
 

@@ -17,8 +17,10 @@ namespace ExercisingPlanAPI.Helpers
             CreateMap<TargetMuscleGroup, TargetMuscleGroupDto>();
             CreateMap<TargetMuscleGroupDto, TargetMuscleGroup>();
 
-            CreateMap<WeekPlan, WeekPlanDto>();
-            CreateMap<WeekPlanDto, WeekPlan>();
+            CreateMap<WeekPlan, WeekPlanIdDto>();
+            CreateMap<WeekPlanIdDto, WeekPlan>();
+            CreateMap<WeekPlan, WeekPlanEntityDto>();
+            CreateMap<WeekPlanEntityDto, WeekPlan>();
 
             CreateMap<Exercise, ExerciseBriefDto>();
             CreateMap<ExerciseBriefDto, Exercise>();

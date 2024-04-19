@@ -7,6 +7,6 @@ namespace ExercisingPlanAPI.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public UserDto Owner { get; set; } = null!;
-        public ICollection<WeekPlanDto> WeekPlans { get; set; }
+        public ICollection<WeekPlanEntityDto> WeekPlans { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ExercisingPlanAPI.DTOs
 {
-    public class WeekPlanDto
+    public class WeekPlanIdDto
     {
         public int WeekNumberId { get; set; }
         public int WeekdayId { get; set; }

@@ -11,5 +11,7 @@ namespace ExercisingPlanAPI.Services
         Task<bool> InsertWeekdayAsync(Weekday weekday);
         Task<bool> UpdateWeekdayAsync(Weekday weekday);
         Task<bool> DeleteWeekdayByIdAsync(int id);
+        Task<bool> WeekdayIdExists(int id);
+        Task<bool> WeekdayNameExists(string name);
     }
 }

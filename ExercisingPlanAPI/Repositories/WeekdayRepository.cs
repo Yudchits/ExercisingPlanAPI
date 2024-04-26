@@ -43,7 +43,17 @@ namespace ExercisingPlanAPI.Repositories
             _context.Remove(weekday);
             return await SaveChangesAsync();
         }
-        
+
+        public async Task<bool> WeekdayIdExists(int id)
+        {
+            return await _context.Weekdays.AnyAsync(weekday => weekday.Id == id);
+        }
+
+        public async Task<bool> WeekdayNameExists(string name)
+        {
+            return await _context.Weekdays.AnyAsync(weekday => weekday.Name.Equals(name));
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync() > 0;

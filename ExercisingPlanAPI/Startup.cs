@@ -39,6 +39,8 @@ namespace ExercisingPlanAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IExercisingPlanService, ExercisingPlanService>();
             services.AddScoped<IExercisingPlanRepository, ExercisingPlanRepository>();
+            services.AddScoped<IWeekdayService, WeekdayService>();
+            services.AddScoped<IWeekdayRepository, WeekdayRepository>();
 
             // Cloudinary
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));

@@ -34,6 +34,16 @@ namespace ExercisingPlanAPI.Services
             return await _repository.UpdateWeekdayAsync(weekday);
         }
 
+        public async Task<bool> WeekdayIdExists(int id)
+        {
+            return await _repository.WeekdayIdExists(id);
+        }
+
+        public async Task<bool> WeekdayNameExists(string name)
+        {
+            return await _repository.WeekdayNameExists(name);
+        }
+
         public async Task<bool> DeleteWeekdayByIdAsync(int id)
         {
             return await _repository.DeleteWeekdayByIdAsync(id);

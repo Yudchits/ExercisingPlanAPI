@@ -14,7 +14,6 @@ namespace ExercisingPlanAPI.Data
         public DbSet<UserRole> UserRoles { get; set; }
         public DbSet<UserSubscriber> UserSubscribers { get; set; }
         public DbSet<Weekday> Weekdays { get; set; }
-        public DbSet<WeekNumber> WeekNumbers { get; set; }
         public DbSet<WeekPlan> WeekPlans { get; set; }
         public DbSet<UserExercisingPlan> UserExercisingPlans { get; set; }
 
@@ -72,17 +71,12 @@ namespace ExercisingPlanAPI.Data
 
             // WeekPlan relationship
             modelBuilder.Entity<WeekPlan>()
-                .HasKey(wp => new { wp.WeekNumberId, wp.WeekdayId, wp.ExercisingPlanId, wp.ExerciseId });
+                .HasKey(wp => new { wp.WeekNumber, wp.WeekdayId, wp.ExercisingPlanId, wp.ExerciseId });
 
             modelBuilder.Entity<WeekPlan>()
                 .HasOne(wp => wp.ExercisingPlan)
                 .WithMany(ep => ep.WeekPlans)
                 .HasForeignKey(we => we.ExercisingPlanId);
-
-            modelBuilder.Entity<WeekPlan>()
-                .HasOne(wp => wp.WeekNumber)
-                .WithMany()
-                .HasForeignKey(wwe => wwe.WeekNumberId);
 
             modelBuilder.Entity<WeekPlan>()
                 .HasOne(wp => wp.Weekday)

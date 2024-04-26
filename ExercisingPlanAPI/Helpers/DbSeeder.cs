@@ -46,15 +46,6 @@ namespace ExercisingPlanAPI.Helpers
                 Name = "Wednesday"
             };
 
-            var weekNumber1 = new WeekNumber
-            {
-                Number = 1
-            };
-            var weekNumber2 = new WeekNumber
-            {
-                Number = 2
-            };
-
             var back = new TargetMuscleGroup
             {
                 Name = "Back"
@@ -79,7 +70,7 @@ namespace ExercisingPlanAPI.Helpers
                 {
                     new WeekPlan
                     {
-                        WeekNumber = weekNumber1,
+                        WeekNumber = 1,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -90,7 +81,7 @@ namespace ExercisingPlanAPI.Helpers
                     },
                     new WeekPlan 
                     {
-                        WeekNumber = weekNumber1,
+                        WeekNumber = 1,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -101,7 +92,7 @@ namespace ExercisingPlanAPI.Helpers
                     },
                     new WeekPlan
                     {
-                        WeekNumber = weekNumber2,
+                        WeekNumber = 2,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -115,7 +106,7 @@ namespace ExercisingPlanAPI.Helpers
                     },
                     new WeekPlan
                     {
-                        WeekNumber = weekNumber1,
+                        WeekNumber = 1,
                         Weekday = wednesday,
                         Exercise = new Exercise
                         {
@@ -126,7 +117,7 @@ namespace ExercisingPlanAPI.Helpers
                     },
                     new WeekPlan
                     {
-                        WeekNumber = weekNumber1,
+                        WeekNumber = 1,
                         Weekday = wednesday,
                         Exercise = new Exercise
                         {
@@ -137,7 +128,7 @@ namespace ExercisingPlanAPI.Helpers
                     },
                     new WeekPlan
                     {
-                        WeekNumber = weekNumber2,
+                        WeekNumber = 2,
                         Weekday = wednesday,
                         Exercise = new Exercise
                         {
@@ -156,7 +147,7 @@ namespace ExercisingPlanAPI.Helpers
                 {
                     new WeekPlan
                     {   
-                        WeekNumber = weekNumber1,
+                        WeekNumber = 1,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -167,7 +158,7 @@ namespace ExercisingPlanAPI.Helpers
                     },
                     new WeekPlan
                     {   
-                        WeekNumber = weekNumber1,
+                        WeekNumber = 1,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -178,7 +169,7 @@ namespace ExercisingPlanAPI.Helpers
                     },
                     new WeekPlan
                     {   
-                        WeekNumber = weekNumber2,
+                        WeekNumber = 2,
                         Weekday = monday,
                         Exercise = new Exercise
                         {
@@ -189,7 +180,7 @@ namespace ExercisingPlanAPI.Helpers
                     },
                     new WeekPlan
                     {   
-                        WeekNumber = weekNumber2,  
+                        WeekNumber = 2,  
                         Weekday = wednesday,
                         Exercise = new Exercise
                         {

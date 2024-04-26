@@ -75,3 +75,4 @@ D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\obj\D
 D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
 D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+D:\Projects\PetProjects\ExercisingPlan\ExercisingPlanAPI\ExercisingPlanAPI\bin\Debug\net5.0\CloudinaryDotNet.dll

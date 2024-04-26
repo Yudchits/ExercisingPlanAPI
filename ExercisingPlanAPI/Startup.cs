@@ -22,19 +22,27 @@ namespace ExercisingPlanAPI
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Database
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
             services.AddTransient<DbSeeder>();
+            
+            // AutoMapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // Services
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IExercisingPlanService, ExercisingPlanService>();
             services.AddScoped<IExercisingPlanRepository, ExercisingPlanRepository>();
+
+            // Cloudinary
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+
             services.AddControllers().AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
             );
@@ -44,7 +52,6 @@ namespace ExercisingPlanAPI
             });
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -55,9 +62,7 @@ namespace ExercisingPlanAPI
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseCors(builder =>

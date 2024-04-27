@@ -49,5 +49,10 @@ namespace ExercisingPlanAPI.Services
         {
             return await _repository.ExerciseIdExistsAsync(id);
         }
+
+        public async Task<bool> ExerciseNameExistsAsync(string name)
+        {
+            return await _repository.ExerciseNameExistsAsync(name);
+        }
     }
 }

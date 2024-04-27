@@ -12,6 +12,7 @@ namespace ExercisingPlanAPI.Repositories
         Task<bool> UpdateExerciseAsync(Exercise exercise);
         Task<bool> DeleteExerciseByIdAsync(int id);
         Task<bool> ExerciseIdExistsAsync(int id);
+        Task<bool> ExerciseNameExistsAsync(string name);
         Task<bool> SaveChangesAsync();
     }
 }

@@ -12,5 +12,6 @@ namespace ExercisingPlanAPI.Services
         Task<bool> UpdateExerciseAsync(ExerciseFullDto exerciseFull);
         Task<bool> DeleteExerciseByIdAsync(int id);
         Task<bool> ExerciseIdExistsAsync(int id);
+        Task<bool> ExerciseNameExistsAsync(string name);
     }
 }

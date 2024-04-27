@@ -22,17 +22,31 @@ namespace ExercisingPlanAPI.Repositories
 
         public async Task<Exercise> GetExerciseByIdAsync(int id)
         {
-            return await _context.Exercises.FirstOrDefaultAsync(exercise => exercise.Id == id);
+            return await _context.Exercises.Include(entity => entity.TargetMuscleGroup).AsNoTracking().FirstOrDefaultAsync(entity => entity.Id == id);
         }
 
         public async Task<bool> InsertExerciseAsync(Exercise exercise)
         {
+            var targetMuscleGroup = await _context.TargetMuscleGroups.FirstOrDefaultAsync(entity => entity.Id == exercise.TargetMuscleGroupId);
+
+            if (targetMuscleGroup != null)
+            {
+                exercise.TargetMuscleGroup = targetMuscleGroup;
+            }
+
             await _context.Exercises.AddAsync(exercise);
             return await SaveChangesAsync();
         }
 
         public async Task<bool> UpdateExerciseAsync(Exercise exercise)
         {
+            var targetMuscleGroup = await _context.TargetMuscleGroups.FindAsync(exercise.TargetMuscleGroupId);
+
+            if (targetMuscleGroup != null)
+            {
+                exercise.TargetMuscleGroup = targetMuscleGroup;
+            }
+
             _context.Exercises.Update(exercise);
             return await SaveChangesAsync();
         }
@@ -47,6 +61,11 @@ namespace ExercisingPlanAPI.Repositories
         public async Task<bool> ExerciseIdExistsAsync(int id)
         {
             return await _context.Exercises.AnyAsync(exercise => exercise.Id == id);
+        }
+
+        public async Task<bool> ExerciseNameExistsAsync(string name)
+        {
+            return await _context.Exercises.AnyAsync(exercise => exercise.Name.Equals(name));
         }
 
         public async Task<bool> SaveChangesAsync()

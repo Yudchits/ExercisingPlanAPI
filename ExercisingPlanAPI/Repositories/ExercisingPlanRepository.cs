@@ -58,7 +58,6 @@ namespace ExercisingPlanAPI.Repositories
         public async Task<ExercisingPlan> GetExercisingPlanByIdAsync(int id)
         {
             return await _context.ExercisingPlans.Include(ep => ep.Owner)
-                .Include(ep => ep.WeekPlans).ThenInclude(wp => wp.WeekNumber)
                 .Include(ep => ep.WeekPlans).ThenInclude(wp => wp.Weekday)
                 .Include(ep => ep.WeekPlans)
                     .ThenInclude(wp => wp.Exercise)

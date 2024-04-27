@@ -14,6 +14,11 @@ namespace ExercisingPlanAPI.Helpers
             CreateMap<Role, RoleDto>();
             CreateMap<RoleDto, Role>();
 
+            CreateMap<Exercise, ExerciseBriefDto>();
+            CreateMap<ExerciseBriefDto, Exercise>();
+            CreateMap<Exercise, ExerciseFullDto>();
+            CreateMap<ExerciseFullDto, Exercise>();
+
             CreateMap<TargetMuscleGroup, TargetMuscleGroupDto>();
             CreateMap<TargetMuscleGroupDto, TargetMuscleGroup>();
 
@@ -21,11 +26,6 @@ namespace ExercisingPlanAPI.Helpers
             CreateMap<WeekPlanIdDto, WeekPlan>();
             CreateMap<WeekPlan, WeekPlanEntityDto>();
             CreateMap<WeekPlanEntityDto, WeekPlan>();
-
-            CreateMap<Exercise, ExerciseBriefDto>();
-            CreateMap<ExerciseBriefDto, Exercise>();
-            CreateMap<Exercise, ExerciseFullDto>();
-            CreateMap<ExerciseFullDto, Exercise>();
 
             CreateMap<ExercisingPlan, ExercisingPlanBriefDto>();
             CreateMap<ExercisingPlanBriefDto, ExercisingPlan>();
